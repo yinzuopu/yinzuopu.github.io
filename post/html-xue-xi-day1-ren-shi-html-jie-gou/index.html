@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>【html学习】01认识html结构 | Hello Yin</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://yinzuopu.github.io/favicon.ico?v=1659425479823">
+<link rel="stylesheet" href="https://yinzuopu.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="HTML 全称为 HyperText Markup Language，译为超文本标记语言。
+HTML 不是一种编程语言，是一种描述性的标记语言。
+作用：HTML是负责描述文档语义的语言。
+
+&lt;!DOCTYPE html&gt;
+&lt..." />
+    <meta name="keywords" content="html" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://yinzuopu.github.io">
+        <img src="https://yinzuopu.github.io/images/avatar.png?v=1659425479823" class="site-logo">
+        <h1 class="site-title">Hello Yin</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/yinzuopu" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://yinzuopu.github.io/" target="_blank">
+            <i class="fab fa-twitter"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://yinzuopu.github.io/" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://yinzuopu.github.io/" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://yinzuopu.github.io/" target="_blank">
+            <i class="fab fa-facebook"></i>
+          </a>
+        
+      
+    </div>
+    <div class="site-description">
+      你好，我爱这个世界~
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/yinzuopu/yinzuopu.github.io" target="_blank">YIN</a> | <a class="rss" href="https://yinzuopu.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">【html学习】01认识html结构</h2>
+            <div class="post-date">2022-07-28</div>
+            
+              <div class="feature-container" style="background-image: url('http://img.smyhvae.com/20151001_1001.png')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <p>HTML 全称为 HyperText Markup Language，译为超文本标记语言。<br>
+HTML 不是一种编程语言，是一种描述性的标记语言。<br>
+作用：HTML是负责描述文档语义的语言。</p>
+<!-- more -->
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;!-- 文档声明头，声明文档类型为html --&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;!-- 指定页面语言类型，en为英语，zh-CN为中文 --&gt;
+
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;!-- 字符集(Character set)是多个字符的集合。 --&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+    &lt;!-- X-UA-Compatible是针对IE8新加的一个设置，Edge 模式通知 Windows Internet Explorer 以最高级别的可用模式显示内容 --&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;!-- 视口 viewport，width=device-width ：表示视口宽度等于屏幕宽度。initial-scale=1.0：表示初始的缩放比例 --&gt;
+    &lt;title&gt;hulkyin&lt;/title&gt;
+    &lt;!-- 指定整个网页的标题，在浏览器最上方显示，title标签也是有助于SEO搜索引擎优化的。 --&gt;
+    &lt;base href=&quot;#&quot;&gt;
+    &lt;!-- 为页面上的所有链接规定默认地址或默认目标 --&gt;
+    &lt;meta name=&quot;Keywords&quot; content=&quot;网易,邮箱,游戏,新闻,体育,娱乐,女性,亚运,论坛,短信&quot; /&gt;
+    &lt;!-- 这些关键词，就是告诉搜索引擎，这个网页是干嘛的，能够提高搜索命中率。让别人能够找到你，搜索到你。 --&gt;
+    &lt;meta name=&quot;Description&quot; content=&quot;网易是中国领先的互联网技术公司，为用户提供免费邮箱、游戏、搜索引擎服务，开设新闻、娱乐、体育等30多个内容频道，及博客、视频、论坛等互动交流，网聚人的力量。&quot; /&gt;
+    &lt;!-- 只要设置Description页面描述，那么百度搜索结果，就能够显示这些语句，这个技术叫做SEO（search engine optimization，搜索引擎优化）。 --&gt;
+    &lt;meta http-equiv=&quot;refresh&quot; content=&quot;3;http://www.baidu.com&quot;&gt;
+    &lt;!-- 上面这个标签的意思是说，3秒之后，自动跳转到百度页面。 --&gt;
+&lt;/head&gt;
+
+&lt;body link=&quot;red&quot; alink=&quot;blue&quot; vlink=&quot;green&quot;&gt;
+    &lt;!-- link属性表示默认显示的颜色、alink属性表示鼠标点击但是还没有松开时的颜色、vlink属性表示点击完成之后显示的颜色 --&gt;
+    &lt;h1&gt;&lt;a href=&quot;#&quot;&gt;hello&lt;/a&gt; &lt;/h1&gt;
+    &lt;br&gt; hhh
+&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://yinzuopu.github.io/tag/5z_y_sDYt/" class="tag">
+                    html
+                  </a>
+                
+              </div>
+            
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

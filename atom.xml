@@ -1,0 +1,646 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://yinzuopu.github.io</id>
+    <title>Hello Yin</title>
+    <updated>2022-08-02T07:31:21.451Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://yinzuopu.github.io"/>
+    <link rel="self" href="https://yinzuopu.github.io/atom.xml"/>
+    <subtitle>你好，我爱这个世界~</subtitle>
+    <logo>https://yinzuopu.github.io/images/avatar.png</logo>
+    <icon>https://yinzuopu.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2022, Hello Yin</rights>
+    <entry>
+        <title type="html"><![CDATA[Flask框架：使用Flask搭建一个简单的接口自动化测试服务]]></title>
+        <id>https://yinzuopu.github.io/post/flask-kuang-jia-shi-yong-flask-da-jian-yi-ge-jian-dan-de-jie-kou-zi-dong-hua-ce-shi-fu-wu/</id>
+        <link href="https://yinzuopu.github.io/post/flask-kuang-jia-shi-yong-flask-da-jian-yi-ge-jian-dan-de-jie-kou-zi-dong-hua-ce-shi-fu-wu/">
+        </link>
+        <updated>2022-08-02T07:29:01.000Z</updated>
+        <summary type="html"><![CDATA[<h3 id="目标说明">目标说明</h3>
+<p>使用flask搭建一个简单的可用于接口自动化的api服务，相关说明如下：</p>
+<ul>
+<li>start.py 程序主文件，用于启动程序</li>
+<li>api_server.py 定义5个接口，分别是查询用户信息列表、查询单个用户信息、增加用户、修改用户信息、删除用户</li>
+<li>test_api.py 测试api_server.py中自定义的接口</li>
+<li>user.json 保存用户信息，采用json文件存储</li>
+<li>Python版本：3.7.4 (v3.7.4:e09359112e, Jul  8 2019, 14:54:52)</li>
+<li>Flask版本：Flask 2.1.3</li>
+</ul>
+]]></summary>
+        <content type="html"><![CDATA[<h3 id="目标说明">目标说明</h3>
+<p>使用flask搭建一个简单的可用于接口自动化的api服务，相关说明如下：</p>
+<ul>
+<li>start.py 程序主文件，用于启动程序</li>
+<li>api_server.py 定义5个接口，分别是查询用户信息列表、查询单个用户信息、增加用户、修改用户信息、删除用户</li>
+<li>test_api.py 测试api_server.py中自定义的接口</li>
+<li>user.json 保存用户信息，采用json文件存储</li>
+<li>Python版本：3.7.4 (v3.7.4:e09359112e, Jul  8 2019, 14:54:52)</li>
+<li>Flask版本：Flask 2.1.3</li>
+</ul>
+<!-- more -->
+<h2 id="1-flask介绍">1、Flask介绍</h2>
+<p>Flask 的设计易于使用和扩展。它的初衷是为各种复杂的Web应用程序构建坚实的基础。可以自由地插入任何扩展。也可以自由构建自己的模块。Flask 适合各种项目。它对原型设计特别有用。Flask 依赖于两个外部库：Jinja2 模板引擎和 Werkzeug WSGI 工具包。 Flask 是最精致，功能最丰富的微框架之一。Flask 还很年轻，拥有蓬勃发展的社区，一流的扩展和漂亮的 API。Flask 具有快速模板，强大的 WSGI 功能，在 Web 应用程序和库级别的完整单元可测性，以及大量文档等优点。 选用 Flask 框架也是因为它方便入手，结构简单，零配置，是个学习 Python Web 开发的好工具。</p>
+<h2 id="2-mock接口介绍">2、mock接口介绍</h2>
+<p>mock / muk 接口，就是模拟接口</p>
+<ul>
+<li>暂时代替第三方接口测试，自己模拟一个接口</li>
+<li>辅助测试，用来代替没有开发好的接口</li>
+<li>查看数据</li>
+</ul>
+<h2 id="3-安装flask">3、安装Flask</h2>
+<pre><code class="language-commandline">pip install flask
+</code></pre>
+<h2 id="4-标准目录结构分解各个目录文件">4、 标准目录结构，分解各个目录文件</h2>
+<pre><code class="language-commandline">01flask
+├── bin
+│   └── mian.py         # 程序入口文件，将启动服务的命令放在这里
+├── conf
+│   └── user.json       # 保存用户信息，采用json文件存储
+├── lib
+│   └── api_server.py   # 定义5个接口，分别是查询用户信息列表、查询单个用户信息、增加用户、修改用户信息、删除用户
+└── testcase
+    └── test_api.py     # 测试api_server.py中自定义的接口
+</code></pre>
+<h2 id="5-接口分析">5、 接口分析</h2>
+<h3 id="51-计划">5.1 计划</h3>
+<ul>
+<li>首先，安装Flask环境，同时要确保python版本大于3.6（因为里面使用了Python f-string格式化字符串的语法）</li>
+<li>接着，运行api_server.py文件，此时会在本地监听8888端口。</li>
+<li>然后，在test_api.py中运行对应的单元测试用例即可测试对应的接口。</li>
+</ul>
+<h3 id="52-接口内容">5.2 接口内容</h3>
+<pre><code class="language-commandline">GET     http://[hostname]/users                 获取用户列表
+GET     http://[hostname]/user/[user_id]        获取user_id的用户信息
+POST    http://[hostname]/users                 创建新用户
+PUT     http://[hostname]/users/[user_id]       更新用户信息
+DELETE  http://[hostname]/users/[user_id]       删除user_id的用户信息    
+</code></pre>
+<h3 id="53-用户信息结构">5.3 用户信息结构</h3>
+<p>用户主要包含name、age、like这3部分信息，同时还存在1个唯一的id标识，用于区分用户。如下：</p>
+<pre><code class="language-json">{
+    &quot;id&quot;: 1001,
+    &quot;name&quot;: &quot;Jim&quot;,
+    &quot;age&quot;: &quot;20&quot;,
+    &quot;like&quot;: &quot;jogging&quot;
+}
+</code></pre>
+<h2 id="6-相关代码">6、相关代码</h2>
+<h3 id="61-api_serverpy">6.1 api_server.py</h3>
+<pre><code class="language-python">from flask import jsonify, Flask, request
+import json
+
+&quot;&quot;&quot;
+功能：实现一个简单的用户查询、增加、修改和删除的api接口，可用于接口自动化测试的api服务。
+响应结果说明：
+1. api请求成功，则返回状态码200，同时在响应结果中返回api请求的相关信息,比如：
+    {
+        &quot;result&quot;: &quot;success&quot;,
+        &quot;users&quot;: {xxx}
+    }
+2. api请求失败，则返回状态码400，同时在响应结果中返回失败的原因，比如：
+    {
+        &quot;result&quot;: &quot;There is no user with user_id:xxx&quot;
+    }
+
+依赖环境：
+Python 3.9.12
+Flask   2.1.2
+&quot;&quot;&quot;
+
+app = Flask(__name__)
+json_path = &quot;../conf/users.json&quot;  # 保存用户json信息的路径
+
+
+def get_json(json_path):
+    &quot;&quot;&quot;读取json数据&quot;&quot;&quot;
+    with open(json_path, &quot;r&quot;, encoding=&quot;utf-8&quot;) as f:
+        res = json.load(f)
+    return res
+
+
+def write_json(json_path, json_data):
+    &quot;&quot;&quot;向文件写入json数据&quot;&quot;&quot;
+    with open(json_path, &quot;w&quot;, encoding=&quot;utf-8&quot;) as f:
+        json.dump(json_data, f)
+
+
+@app.route(&quot;/users&quot;, methods=[&quot;GET&quot;])
+def get_users():
+    &quot;&quot;&quot;获取所有用户信息&quot;&quot;&quot;
+    users = get_json(json_path)[&quot;users&quot;]
+    res = {
+        &quot;result&quot;: &quot;success&quot;,
+        &quot;users&quot;: users
+    }
+    return jsonify(res), 200
+
+
+@app.route(&quot;/users/&lt;int:user_id&gt;&quot;, methods=[&quot;GET&quot;])
+def get_user(user_id):  # 需要将route中的参数传递进来
+    &quot;&quot;&quot;查询指定user_id的用户信息&quot;&quot;&quot;
+    users = get_json(json_path)[&quot;users&quot;]
+    user = list(filter(lambda t: t[&quot;id&quot;] == user_id, users))  # 获取users中id为user_id的用户列表。
+    if len(user) == 0:
+        return jsonify({&quot;result&quot;: f&quot;There is no user with user_id:{user_id}&quot;}), 400
+    else:
+        return jsonify({&quot;result&quot;: &quot;success&quot;, &quot;user&quot;: user[0]}), 200
+
+
+@app.route(&quot;/users&quot;, methods=[&quot;POST&quot;])
+def create_user():
+    &quot;&quot;&quot;要求请求的json数据中name、age是必填项，like选填&quot;&quot;&quot;
+    required = [&quot;name&quot;, &quot;age&quot;]  # 设置必填参数
+    users = get_json(json_path)[&quot;users&quot;]
+    req_json = request.json
+    if not req_json:
+        return jsonify({&quot;result&quot;: &quot;Please use application/json to submit json data&quot;}), 400
+
+    # 获取缺少的必填参数
+    params_list = set(required) - set(req_json.keys())
+    if len(params_list) &gt; 0:
+        return jsonify({&quot;result&quot;: f&quot;Missing required parameter:{params_list}&quot;}), 400
+
+    # 为新用户设置一个id：
+    # 1. 如果没有传递id参数，且当前users中不存在用户信息，此时就设置id为1001。
+    # 2. 如果没有传递id参数，且users中存在用户信息，此时就获取最大的用户id，并在此基础上+1，作为new_id。
+    # 3. 如果传递了id参数，且这个id已经存在与已有的id，此时返回错误信息。
+    # 4. 如果传递了id参数，但是这个id不存在，此时就赋值为用户传递的id。
+    ids = [user[&quot;id&quot;] for user in users]
+    if &quot;id&quot; not in req_json.keys():
+        if len(ids) == 0:
+            new_id = 1001
+        else:
+            new_id = max(ids) + 1
+    else:
+        if int(req_json[&quot;id&quot;]) in ids:  # 如果自定义的id已经存在，则此时需要返回提示信息
+            res = {&quot;result&quot;: f'user_id: {req_json[&quot;id&quot;]} already exists'}
+            return jsonify(res), 400
+        else:
+            new_id = int(req_json[&quot;id&quot;])
+
+    # 新的用户数据
+    user = {
+        &quot;id&quot;: new_id,
+        &quot;name&quot;: req_json[&quot;name&quot;],
+        &quot;age&quot;: req_json[&quot;age&quot;],
+        &quot;like&quot;: req_json[&quot;like&quot;] if &quot;like&quot; in req_json.keys() else &quot;&quot;
+    }
+    users.append(user)
+    print(users)
+    write_json(json_path, {&quot;users&quot;: users})
+    return jsonify({&quot;user&quot;: user, &quot;result&quot;: &quot;success&quot;}), 200
+
+
+@app.route(&quot;/users/&lt;int:user_id&gt;&quot;, methods=[&quot;PUT&quot;])
+def update_user(user_id):
+    users = get_json(json_path)[&quot;users&quot;]
+    user = list(filter(lambda t: t[&quot;id&quot;] == user_id, users))
+    if len(user) == 0:  # 表示不存在id为user_id的用户
+        return jsonify({&quot;result&quot;: f&quot;There is no user with user_id:{user_id}&quot;}), 400
+    if not request.json:  # 当没有提交数据或者数据没有提交到json
+        return jsonify({&quot;result&quot;: &quot;Please use application/json to submit json data&quot;}), 400
+
+    # 这里修改user[0]，实际上会修改users里面的内容，user应该也是users中指定id的引用
+    user[0][&quot;name&quot;] = request.json.get(&quot;name&quot;, user[0][&quot;name&quot;])
+    user[0][&quot;age&quot;] = request.json.get(&quot;age&quot;, user[0][&quot;age&quot;])
+    user[0][&quot;like&quot;] = request.json.get(&quot;like&quot;, user[0][&quot;like&quot;])
+
+    write_json(json_path, {&quot;users&quot;: users})
+    return jsonify(user), 200
+
+
+@app.route(&quot;/users/&lt;int:user_id&gt;&quot;, methods=[&quot;DELETE&quot;])
+def delete_user(user_id):
+    users = get_json(json_path)[&quot;users&quot;]
+    user = list(filter(lambda t: t[&quot;id&quot;] == user_id, users))
+    if len(user) == 0:  # 表示不存在id为user_id的用户
+        return jsonify({&quot;result&quot;: f&quot;There is no user with user_id:{user_id}&quot;}), 400
+
+    # 直接通过remove删除即可。
+    users.remove(user[0])
+    write_json(json_path, {&quot;users&quot;: users})
+    return jsonify(user), 200
+</code></pre>
+<h3 id="62-test_apipy">6.2 test_api.py</h3>
+<pre><code class="language-python">
+import requests
+import unittest
+import json
+
+class APITest(unittest.TestCase):
+    # 请求的路径
+    base_url = &quot;http://127.0.0.1:8888&quot;
+
+    def test_get_users(self):
+        &quot;&quot;&quot;测试获取用户列表&quot;&quot;&quot;
+        path = &quot;/users&quot;
+        url = f&quot;{self.base_url}{path}&quot;
+
+        res = requests.get(url, params={&quot;token&quot;:&quot;1234555&quot;})
+        print(res.json())
+        assert res.json()[&quot;result&quot;] == &quot;success&quot;
+
+    def test_create_user(self):
+        &quot;&quot;&quot;
+        创建用户
+        &quot;&quot;&quot;
+        path = &quot;/users&quot;
+        url = f&quot;{self.base_url}{path}&quot;
+        data = {
+            &quot;name&quot;: &quot;Jim&quot;,
+            &quot;age&quot;: &quot;20&quot;,
+            &quot;like&quot;: &quot;abc&quot;,
+        }
+        res = requests.post(url, headers={&quot;Content-Type&quot;: &quot;application/json&quot;},data=json.dumps(data))
+        print(res.json())
+        assert res.json()[&quot;result&quot;] == &quot;success&quot;
+
+    def test_update_user(self):
+        path = &quot;/users/1001&quot;
+        url = f&quot;{self.base_url}{path}&quot;
+        data = {
+            &quot;name&quot;: &quot;Jim&quot;,
+            &quot;age&quot;: &quot;23&quot;,
+            &quot;like&quot;: &quot;jogging&quot;,
+        }
+        res = requests.put(url, headers={&quot;Content-Type&quot;: &quot;application/json&quot;}, data=json.dumps(data))
+        print(res.json())
+
+    def test_delete_user(self):
+        path = &quot;/users/1001&quot;
+        url = f&quot;{self.base_url}{path}&quot;
+        res = requests.delete(url)
+        print(res.json())
+</code></pre>
+<h3 id="63-startpy">6.3 start.py</h3>
+<pre><code class="language-python"># 程序入口文件，将启动服务的命令放在这里
+# 增加根目录为环境变量，方便底层牡蛎执行时目录错误
+import os, sys
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))   # 取到01flask目录，为根目录
+# print(BASE_DIR)
+sys.path.insert(0, BASE_DIR)    # 引入自己写的程序路径，加环境变量，否则import导入会异常
+
+from lib.api_server import app    # 在lib文件夹下新建__init__.py文件，在Python工程里，当python检测到一个目录下存在__init__.py文件时，python就会把它当成一个模块(module)。
+app.run(
+    port=8888,          # 默认端口是5000
+    host='127.0.0.1',     # host = '0.0.0.0' 代表局域网内别人都可以通ip访问自己的接口
+    debug=True          # 启动服务,加debug自动帮忙重启
+)
+</code></pre>
+<h3 id="64-startpy启动日志">6.4 start.py启动日志</h3>
+<pre><code class="language-commandline">/Users/yinzuopu/pythonLearn/bin/python /Users/yinzuopu/pythonLearn/01flask/bin/start.py
+ * Serving Flask app 'lib.api_server' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+ * Running on http://127.0.0.1:8888 (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 136-091-012
+127.0.0.1 - - [02/Aug/2022 15:20:54] &quot;GET / HTTP/1.1&quot; 404 -
+127.0.0.1 - - [02/Aug/2022 15:20:58] &quot;GET /users HTTP/1.1&quot; 200 -
+127.0.0.1 - - [02/Aug/2022 15:21:08] &quot;GET /users/10086 HTTP/1.1&quot; 400 -
+127.0.0.1 - - [02/Aug/2022 15:22:34] &quot;GET /users/1001 HTTP/1.1&quot; 200 -
+127.0.0.1 - - [02/Aug/2022 15:23:13] &quot;POST /users HTTP/1.1&quot; 200 -
+127.0.0.1 - - [02/Aug/2022 15:23:13] &quot;DELETE /users/1001 HTTP/1.1&quot; 200 -
+127.0.0.1 - - [02/Aug/2022 15:23:13] &quot;GET /users?token=1234555 HTTP/1.1&quot; 200 -
+[{'id': 1001, 'name': 'Jim', 'age': '20', 'like': 'jogging'}, {'id': 1002, 'name': 'Jim', 'age': '20', 'like': 'abc'}]
+127.0.0.1 - - [02/Aug/2022 15:23:13] &quot;PUT /users/1001 HTTP/1.1&quot; 400 -
+</code></pre>
+<h3 id="65-test_api执行日志">6.5 test_api执行日志</h3>
+<pre><code class="language-commandline">/Users/yinzuopu/pythonLearn/bin/python /Applications/PyCharm.app/Contents/plugins/python/helpers/pycharm/_jb_unittest_runner.py --path /Users/yinzuopu/pythonLearn/01flask/testcase/test_api.py
+Testing started at 3:23 下午 ...
+Launching unittests with arguments python -m unittest /Users/yinzuopu/pythonLearn/01flask/testcase/test_api.py in /Users/yinzuopu/pythonLearn/01flask/testcase
+
+{'result': 'success', 'user': {'age': '20', 'id': 1002, 'like': 'abc', 'name': 'Jim'}}
+[{'age': '20', 'id': 1001, 'like': 'jogging', 'name': 'Jim'}]
+{'result': 'success', 'users': [{'age': '20', 'id': 1002, 'like': 'abc', 'name': 'Jim'}]}
+{'result': 'There is no user with user_id:1001'}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[python程序目录工程化]]></title>
+        <id>https://yinzuopu.github.io/post/python-cheng-xu-mu-lu-gong-cheng-hua/</id>
+        <link href="https://yinzuopu.github.io/post/python-cheng-xu-mu-lu-gong-cheng-hua/">
+        </link>
+        <updated>2022-08-02T06:37:47.000Z</updated>
+        <summary type="html"><![CDATA[<p>在一个程序当中，一般都会包含文件夹：bin、conf、lib、data、logs，以及readme文件。<br>
+<img src="https://yinzuopu.github.io/post-images/1659422595737.png" alt="" loading="lazy"><br>
+所写程序存放到各自的文件夹中，如何进行串联？<br>
+首先，通过导入文件导入模块方式，引用其他人写好的代码。<br>
+其次，找到最顶层的程序所在文件夹，加入到环境变量中。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>在一个程序当中，一般都会包含文件夹：bin、conf、lib、data、logs，以及readme文件。<br>
+<img src="https://yinzuopu.github.io/post-images/1659422595737.png" alt="" loading="lazy"><br>
+所写程序存放到各自的文件夹中，如何进行串联？<br>
+首先，通过导入文件导入模块方式，引用其他人写好的代码。<br>
+其次，找到最顶层的程序所在文件夹，加入到环境变量中。</p>
+<!-- more -->
+<pre><code class="language-python">import os, sys
+BASE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(file)))    #取到工程目录
+sys.path.insert(0,BASE_PATH)        #加入环境变量
+from lib.main import server     #导入lib目录下的main.py文件。
+server.run(port=8000,host='127.0.0.1',debug=True)
+</code></pre>
+<p>说明：<br/><br>
+1、os.path.abspath(file)获取当前文件路径<br>
+2、sys.path.insert(0,BASE_PATH) 加入环境变量，在系统环境变量中不会看到<br>
+3、将host=0.0.0.0 可以同个局域网里面所有人都可以访问</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[python工程目录结构示例：结构化你的工程]]></title>
+        <id>https://yinzuopu.github.io/post/python-gong-cheng-mu-lu-jie-gou-jie-gou-hua-ni-de-gong-cheng/</id>
+        <link href="https://yinzuopu.github.io/post/python-gong-cheng-mu-lu-jie-gou-jie-gou-hua-ni-de-gong-cheng/">
+        </link>
+        <updated>2022-08-02T06:12:21.000Z</updated>
+        <summary type="html"><![CDATA[<p>我们对于“结构化”的定义是您关注于怎样使您的项目最好地满足它的对象性，我们 需要去考虑如何更好地利用Python的特性来创造简洁、高效的代码。在实践层面， “结构化”意味着通过编写简洁的代码，并且正如文件系统中文件和目录的组织一样， 代码应该使逻辑和依赖清晰。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>我们对于“结构化”的定义是您关注于怎样使您的项目最好地满足它的对象性，我们 需要去考虑如何更好地利用Python的特性来创造简洁、高效的代码。在实践层面， “结构化”意味着通过编写简洁的代码，并且正如文件系统中文件和目录的组织一样， 代码应该使逻辑和依赖清晰。</p>
+<!-- more -->
+<h2 id="项目一">项目一</h2>
+<figure data-type="image" tabindex="1"><img src="https://yinzuopu.github.io/post-images/1659420881697.png" alt="" loading="lazy"></figure>
+<h3 id="readmemd">readme.md</h3>
+<p>它需要说明以下几个事项:</p>
+<ul>
+<li>软件定位，软件的基本功能。</li>
+<li>运行代码的方法: 安装环境、启动命令等。</li>
+<li>简要的使用说明。</li>
+<li>代码目录结构说明，更详细点可以说明软件的基本原理。</li>
+<li>常见问题说明。</li>
+</ul>
+<h3 id="setuppy">setup.py</h3>
+<p>一般来说，用setup.py来管理代码的打包、安装、部署问题。业界标准的写法是用Python流行的打包工具setuptools来管理这些事情。<br>
+这种方式普遍应用于开源项目中。不过这里的核心思想不是用标准化的工具来解决这些问题，而是说，一个项目一定要有一个安装部署工具，能快速便捷的在一台新机器上将环境装好、代码部署好和将程序运行起来。<br>
+setup.py可以将这些事情自动化起来，提高效率、减少出错的概率。&quot;复杂的东西自动化，能自动化的东西一定要自动化。&quot;是一个非常好的习惯。<br>
+setuptools的文档比较庞大，刚接触的话，可能不太好找到切入点。学习技术的方式就是看他人是怎么用的，可以参考一下Python的一个Web框架，flask是如何写的: setup.py当然，简单点自己写个安装脚本（deploy.sh）替代setup.py也未尝不可。</p>
+<h3 id="requirementstxt">requirements.txt</h3>
+<p>这个文件存在的目的是:<br>
+方便开发者维护软件的包依赖。将开发过程中新增的包添加进这个列表中，避免在 setup.py 安装依赖时漏掉软件包。方便读者明确项目使用了哪些Python包。<br>
+这个文件的格式是每一行包含一个包依赖的说明，通常是flask&gt;=0.10这种格式，要求是这个格式能被pip识别，这样就可以简单的通过 pip install -r requirements.txt来把所有Python包依赖都装好了。</br></p>
+<h3 id="代码示例">代码示例</h3>
+<details>
+<pre>
+<code>
+#=============>bin目录：存放执行脚本
+#start.py
+import sys,os
+<p>BASE_DIR=os.path.dirname(os.path.dirname(os.path.abspath(<strong>file</strong>)))<br>
+sys.path.append(BASE_DIR)</p>
+<p>from core import core<br>
+from conf import my_log_settings</p>
+<p>if <strong>name</strong> == '<strong>main</strong>':<br>
+my_log_settings.load_my_logging_cfg()<br>
+core.run()</p>
+<p>#=============&gt;conf目录：存放配置文件<br>
+#config.ini<br>
+[DEFAULT]<br>
+user_timeout = 1000</p>
+<p>[x]<br>
+password = 123<br>
+money = 10000000</p>
+<p>[y]<br>
+password = 123456<br>
+money=1000</p>
+<p>[z]<br>
+password = qwe123<br>
+money=10</p>
+<p>#settings.py<br>
+import os<br>
+config_path=r'%s%s' %(os.path.dirname(os.path.abspath(<strong>file</strong>)),'config.ini')<br>
+user_timeout=10<br>
+user_db_path=r'%s%s' %(os.path.dirname(os.path.dirname(os.path.abspath(<strong>file</strong>))),<br>
+'db')</p>
+<p>#my_log_settings.py<br>
+&quot;&quot;&quot;<br>
+logging配置<br>
+&quot;&quot;&quot;</p>
+<p>import os<br>
+import logging.config</p>
+<h1 id="定义三种日志输出格式-开始">定义三种日志输出格式 开始</h1>
+<p>standard_format = '[%(asctime)s][%(threadName)s:%(thread)d][task_id:%(name)s][%(filename)s:%(lineno)d]' <br>
+'[%(levelname)s][%(message)s]' #其中name为getlogger指定的名字</p>
+<p>simple_format = '[%(levelname)s][%(asctime)s][%(filename)s:%(lineno)d]%(message)s'</p>
+<p>id_simple_format = '[%(levelname)s][%(asctime)s] %(message)s'</p>
+<h1 id="定义日志输出格式-结束">定义日志输出格式 结束</h1>
+<p>logfile_dir = r'%s\log' %os.path.dirname(os.path.dirname(os.path.abspath(<strong>file</strong>)))  # log文件的目录</p>
+<p>logfile_name = 'all2.log'  # log文件名</p>
+<h1 id="如果不存在定义的日志目录就创建一个">如果不存在定义的日志目录就创建一个</h1>
+<p>if not os.path.isdir(logfile_dir):<br>
+os.mkdir(logfile_dir)</p>
+<h1 id="log文件的全路径">log文件的全路径</h1>
+<p>logfile_path = os.path.join(logfile_dir, logfile_name)</p>
+<h1 id="log配置字典">log配置字典</h1>
+<p>LOGGING_DIC = {<br>
+'version': 1,<br>
+'disable_existing_loggers': False,<br>
+'formatters': {<br>
+'standard': {<br>
+'format': standard_format<br>
+},<br>
+'simple': {<br>
+'format': simple_format<br>
+},<br>
+},<br>
+'filters': {},<br>
+'handlers': {<br>
+#打印到终端的日志<br>
+'console': {<br>
+'level': 'DEBUG',<br>
+'class': 'logging.StreamHandler',  # 打印到屏幕<br>
+'formatter': 'simple'<br>
+},<br>
+#打印到文件的日志,收集info及以上的日志<br>
+'default': {<br>
+'level': 'DEBUG',<br>
+'class': 'logging.handlers.RotatingFileHandler',  # 保存到文件<br>
+'formatter': 'standard',<br>
+'filename': logfile_path,  # 日志文件<br>
+'maxBytes': 1024<em>1024</em>5,  # 日志大小 5M<br>
+'backupCount': 5,<br>
+'encoding': 'utf-8',  # 日志文件的编码，再也不用担心中文log乱码了<br>
+},<br>
+},<br>
+'loggers': {<br>
+#logging.getLogger(<strong>name</strong>)拿到的logger配置<br>
+'': {<br>
+'handlers': ['default', 'console'],  # 这里把上面定义的两个handler都加上，即log数据既写入文件又打印到屏幕<br>
+'level': 'DEBUG',<br>
+'propagate': True,  # 向上（更高level的logger）传递<br>
+},<br>
+},<br>
+}</p>
+<p>def load_my_logging_cfg():<br>
+logging.config.dictConfig(LOGGING_DIC)  # 导入上面定义的logging配置<br>
+logger = logging.getLogger(<strong>name</strong>)  # 生成一个log实例<br>
+logger.info('It works!')  # 记录该文件的运行状态</p>
+<p>if <strong>name</strong> == '<strong>main</strong>':<br>
+load_my_logging_cfg()</p>
+<p>#=============&gt;core目录：存放核心逻辑<br>
+#core.py<br>
+import logging<br>
+import time<br>
+from conf import settings<br>
+from lib import read_ini<br>
+from conf import my_log_settings</p>
+<h1 id="printname">print(<strong>name</strong>)</h1>
+<p>config = read_ini.read(settings.config_path)<br>
+logger = my_log_settings.load_my_logging_cfg(<strong>name</strong>)</p>
+<p>current_user={'user':None,'login_time':None,'timeout':int(settings.user_timeout)}<br>
+def auth(func):<br>
+def wrapper(*args,**kwargs):<br>
+if current_user['user']:<br>
+interval=time.time()-current_user['login_time']<br>
+if interval &lt; current_user['timeout']:<br>
+return func(*args,**kwargs)<br>
+name = input('name&gt;&gt;: ')<br>
+password = input('password&gt;&gt;: ')<br>
+if config.has_section(name):<br>
+if password == config.get(name,'password'):<br>
+logger.info('登录成功')<br>
+current_user['user']=name<br>
+current_user['login_time']=time.time()<br>
+return func(*args,**kwargs)<br>
+else:<br>
+logger.error('登录失败')<br>
+else:<br>
+logger.error('用户名不存在')</p>
+<pre><code>return wrapper
+</code></pre>
+<p>@auth<br>
+def buy():<br>
+print('buy...')</p>
+<p>@auth<br>
+def run():</p>
+<pre><code>print('''
+</code></pre>
+<p>购物<br>
+查看余额<br>
+转账<br>
+''')<br>
+while True:<br>
+choice = input('&gt;&gt;: ').strip()<br>
+if not choice:continue<br>
+if choice == '1':<br>
+buy()</p>
+<p>#=============&gt;db目录：存放数据库文件<br>
+#x_json<br>
+#y_json</p>
+<p>#=============&gt;lib目录：存放自定义的模块与包<br>
+#read_ini.py<br>
+import configparser<br>
+def read(config_file):<br>
+config=configparser.ConfigParser()<br>
+config.read(config_file)<br>
+return config</p>
+<p>#=============&gt;log目录：存放日志<br>
+#all.log<br>
+[2018-04-20 00:19:48,587][MainThread:10840][task_id:<strong>main</strong>][my_logsettiing.py:75][INFO][It works!]<br>
+[2018-04-20 00:28:29,387][MainThread:9492][task_id:conf.my_log_settings][my_log_settings.py:75][INFO][It works!]<br>
+[2018-04-20 00:32:14,803][MainThread:15240][task_id:conf.my_log_settings][my_log_settings.py:75][INFO][It works!]<br>
+[2018-04-20 00:39:30,564][MainThread:11216][task_id:<strong>main</strong>][my_log_settings.py:75][INFO][It works!]<br>
+[2018-04-20 00:39:46,132][MainThread:11216][task_id:<strong>main</strong>][core.py:22][INFO][登录成功]<br>
+[2018-04-20 00:41:27,929][MainThread:6644][task_id:core.core][my_log_settings.py:75][INFO][It works!]<br>
+[2018-04-20 00:41:44,162][MainThread:8620][task_id:core.core][my_log_settings.py:75][INFO][It works!]<br>
+[2018-04-20 00:41:44,163][MainThread:8620][task_id:<strong>main</strong>][my_log_settings.py:75][INFO][It works!]<br>
+[2018-04-20 00:41:53,689][MainThread:8620][task_id:core.core][core.py:29][ERROR][用户名不存在]<br>
+[2018-04-20 00:44:33,641][MainThread:14012][task_id:<strong>main</strong>][my_log_settings.py:75][INFO][It works!]<br>
+[2018-04-20 00:44:42,086][MainThread:14012][task_id:<strong>main</strong>][core.py:22][INFO][登录成功]<br>
+[2018-04-20 00:47:22,321][MainThread:9460][task_id:<strong>main</strong>][my_log_settings.py:75][INFO][It works!]<br>
+[2018-04-20 00:47:25,847][MainThread:9460][task_id:<strong>main</strong>][core.py:29][ERROR][用户名不存在]<br>
+[2018-04-20 00:51:58,265][MainThread:14784][task_id:core.core][my_log_settings.py:75][INFO][It works!]<br>
+[2018-04-20 00:51:58,265][MainThread:14784][task_id:<strong>main</strong>][my_log_settings.py:75][INFO][It works!]<br>
+[2018-04-20 00:52:14,703][MainThread:14784][task_id:core.core][core.py:22][INFO][登录成功]<br>
+</code><br>
+</pre></p>
+</details>
+<h2 id="项目二">项目二</h2>
+<figure data-type="image" tabindex="2"><img src="https://yinzuopu.github.io/post-images/1659421523483.png" alt="" loading="lazy"></figure>
+<ul>
+<li>bin目录：是整个应用程序的执行文件目录，其中start.py文件是启动入口</li>
+<li>conf目录：是整个应用程序的配置文件目录，config.yaml是其中一个配置文件</li>
+<li>core目录：是整个应用程序的核心模块，core.py是核心业务逻辑脚本文件</li>
+<li>db目录：是整个应用程序的数据库文件目录</li>
+<li>lib目录：是整个应用程序的通用功能脚本和第三方应用文件存放目录</li>
+<li>log目录：是整个应用程序的日志文件目录</li>
+<li>res目录：是整个应用程序的图标、图片、ui等目录</li>
+<li>tests目录：是整个应用程序的测试文件目录</li>
+<li>venv-win32目录：是整个应用程序的32位虚拟环境目录，用于运行和打包32应用程序</li>
+<li>venv-win64目录：是整个应用程序的64位虚拟环境目录，用于运行和打包64应用程序</li>
+<li>readme.txt：项目说明文档</li>
+<li>requirements.txt：用于存放整个应用依赖的外部Python包列表</li>
+</ul>
+<h2 id="项目三">项目三</h2>
+<p><img src="https://yinzuopu.github.io/post-images/1659421650410.png" alt="" loading="lazy"><br>
+<img src="https://yinzuopu.github.io/post-images/1659421678730.png" alt="" loading="lazy"></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[python 服务器运行代码报错ModuleNotFoundError的解决办法]]></title>
+        <id>https://yinzuopu.github.io/post/python-fu-wu-qi-yun-xing-dai-ma-bao-cuo-modulenotfounderror-de-jie-jue-ban-fa/</id>
+        <link href="https://yinzuopu.github.io/post/python-fu-wu-qi-yun-xing-dai-ma-bao-cuo-modulenotfounderror-de-jie-jue-ban-fa/">
+        </link>
+        <updated>2022-08-02T02:33:38.000Z</updated>
+        <summary type="html"><![CDATA[<h3 id="一-问题描述">一、问题描述</h3>
+<p>一段 Python 代码在本地的 IDE 上运行正常，部署到服务器运行后，出现了 ModuleNotFoundError: No module named ‘xxx' 错误。</p>
+<h3 id="二-问题原因">二、问题原因</h3>
+<p>在代码中引入了其他文件的包（自己写的包，非 pip 安装的），问题出在 import 那行语句。<br>
+错误的原因是因为路径的原因，服务器端的路径和我们本地的路径不一样显示。</p>
+]]></summary>
+        <content type="html"><![CDATA[<h3 id="一-问题描述">一、问题描述</h3>
+<p>一段 Python 代码在本地的 IDE 上运行正常，部署到服务器运行后，出现了 ModuleNotFoundError: No module named ‘xxx' 错误。</p>
+<h3 id="二-问题原因">二、问题原因</h3>
+<p>在代码中引入了其他文件的包（自己写的包，非 pip 安装的），问题出在 import 那行语句。<br>
+错误的原因是因为路径的原因，服务器端的路径和我们本地的路径不一样显示。</p>
+<!-- more -->
+<h3 id="三-解决示例">三、解决示例</h3>
+<p>要解决这个问题，可以在自己代码的顶端加入以下代码：</p>
+<pre><code class="language-python">import sys
+import os
+sys.path.append(os.path.dirname(sys.path[0]))
+</code></pre>
+<p>或者</p>
+<pre><code class="language-python">import sys
+import os
+ 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, BASE_DIR)
+</code></pre>
+<h3 id="四-syspathappend-和-syspathinsert以上代码可以保证在任何时候都切换到当前执行脚本所在目录中具体根据自己脚本所在的目录结构进行调整">四、sys.path.append() 和 sys.path.insert()以上代码可以保证在任何时候都切换到当前执行脚本所在目录中，具体根据自己脚本所在的目录结构进行调整。</h3>
+<p>Python 程序中使用 import xxx 时，Python 解析器会在当前目录、已安装和第三方模块中搜索 xxx，如果都搜索不到就会报错。</p>
+<ul>
+<li>sys.path 模块可以动态的修改系统路径，这种方法导入的路径会在 Python 程序退出后失效。</li>
+<li>sys.path 本身是个列表，所以在里面添加目录是很容易的，添加完后，新目录即时起效，以后的每次 import 操作都可能会检查这个目录。</li>
+</ul>
+<h4 id="41-syspathappend">4.1  sys.path.append()</h4>
+<p>在 sys.path 列表的末尾临时添加搜索路径，方便更简洁的 import 其他包和模块。这种方法导入的路径会在 Python 程序退出后失效。</p>
+<pre><code class="language-python">import sys
+sys.path.append('..') # 表示导入当前文件的上层目录到搜索路径中
+sys.path.append('/home/model') # 绝对路径
+from folderA.folderB.fileA import functionA
+</code></pre>
+<h4 id="42-syspathinsert">4.2 sys.path.insert()</h4>
+<p>可以定义搜索优先顺序，序号从 0 开始，表示最大优先级，sys.path.insert() 加入的也是临时搜索路径，程序退出后失效。</p>
+<pre><code class="language-python">sys.path.insert(1, &quot;./model&quot;)
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hello Yin]]></title>
+        <id>https://yinzuopu.github.io/post/hello-gridea/</id>
+        <link href="https://yinzuopu.github.io/post/hello-gridea/">
+        </link>
+        <updated>2022-07-28T07:09:40.000Z</updated>
+        <summary type="html"><![CDATA[<p>👏  欢迎光临我的小站！<br>
+✍️  我希望我能坚持下来记录生活、心情、知识、笔记、创意... ...</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>👏  欢迎光临我的小站！<br>
+✍️  我希望我能坚持下来记录生活、心情、知识、笔记、创意... ...</p>
+<!-- more -->
+<p><a href="https://github.com/yinzuopu">Github</a><br>
+<a href="https://yinzuopu.github.io">blog 主页</a></p>
+]]></content>
+    </entry>
+</feed>

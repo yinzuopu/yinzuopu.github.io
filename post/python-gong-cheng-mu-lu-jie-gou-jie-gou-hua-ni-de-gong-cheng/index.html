@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>python工程目录结构示例：结构化你的工程 | Hello Yin</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://yinzuopu.github.io/favicon.ico?v=1659425479823">
+<link rel="stylesheet" href="https://yinzuopu.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="我们对于“结构化”的定义是您关注于怎样使您的项目最好地满足它的对象性，我们 需要去考虑如何更好地利用Python的特性来创造简洁、高效的代码。在实践层面， “结构化”意味着通过编写简洁的代码，并且正如文件系统中文件和目录的组织一样， 代码应..." />
+    <meta name="keywords" content="Python" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://yinzuopu.github.io">
+        <img src="https://yinzuopu.github.io/images/avatar.png?v=1659425479823" class="site-logo">
+        <h1 class="site-title">Hello Yin</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/yinzuopu" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://yinzuopu.github.io/" target="_blank">
+            <i class="fab fa-twitter"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://yinzuopu.github.io/" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://yinzuopu.github.io/" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://yinzuopu.github.io/" target="_blank">
+            <i class="fab fa-facebook"></i>
+          </a>
+        
+      
+    </div>
+    <div class="site-description">
+      你好，我爱这个世界~
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/yinzuopu/yinzuopu.github.io" target="_blank">YIN</a> | <a class="rss" href="https://yinzuopu.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">python工程目录结构示例：结构化你的工程</h2>
+            <div class="post-date">2022-08-02</div>
+            
+            <div class="post-content" v-pre>
+              <p>我们对于“结构化”的定义是您关注于怎样使您的项目最好地满足它的对象性，我们 需要去考虑如何更好地利用Python的特性来创造简洁、高效的代码。在实践层面， “结构化”意味着通过编写简洁的代码，并且正如文件系统中文件和目录的组织一样， 代码应该使逻辑和依赖清晰。</p>
+<!-- more -->
+<h2 id="项目一">项目一</h2>
+<figure data-type="image" tabindex="1"><img src="https://yinzuopu.github.io/post-images/1659420881697.png" alt="" loading="lazy"></figure>
+<h3 id="readmemd">readme.md</h3>
+<p>它需要说明以下几个事项:</p>
+<ul>
+<li>软件定位，软件的基本功能。</li>
+<li>运行代码的方法: 安装环境、启动命令等。</li>
+<li>简要的使用说明。</li>
+<li>代码目录结构说明，更详细点可以说明软件的基本原理。</li>
+<li>常见问题说明。</li>
+</ul>
+<h3 id="setuppy">setup.py</h3>
+<p>一般来说，用setup.py来管理代码的打包、安装、部署问题。业界标准的写法是用Python流行的打包工具setuptools来管理这些事情。<br>
+这种方式普遍应用于开源项目中。不过这里的核心思想不是用标准化的工具来解决这些问题，而是说，一个项目一定要有一个安装部署工具，能快速便捷的在一台新机器上将环境装好、代码部署好和将程序运行起来。<br>
+setup.py可以将这些事情自动化起来，提高效率、减少出错的概率。&quot;复杂的东西自动化，能自动化的东西一定要自动化。&quot;是一个非常好的习惯。<br>
+setuptools的文档比较庞大，刚接触的话，可能不太好找到切入点。学习技术的方式就是看他人是怎么用的，可以参考一下Python的一个Web框架，flask是如何写的: setup.py当然，简单点自己写个安装脚本（deploy.sh）替代setup.py也未尝不可。</p>
+<h3 id="requirementstxt">requirements.txt</h3>
+<p>这个文件存在的目的是:<br>
+方便开发者维护软件的包依赖。将开发过程中新增的包添加进这个列表中，避免在 setup.py 安装依赖时漏掉软件包。方便读者明确项目使用了哪些Python包。<br>
+这个文件的格式是每一行包含一个包依赖的说明，通常是flask&gt;=0.10这种格式，要求是这个格式能被pip识别，这样就可以简单的通过 pip install -r requirements.txt来把所有Python包依赖都装好了。</br></p>
+<h3 id="代码示例">代码示例</h3>
+<details>
+<pre>
+<code>
+#=============>bin目录：存放执行脚本
+#start.py
+import sys,os
+<p>BASE_DIR=os.path.dirname(os.path.dirname(os.path.abspath(<strong>file</strong>)))<br>
+sys.path.append(BASE_DIR)</p>
+<p>from core import core<br>
+from conf import my_log_settings</p>
+<p>if <strong>name</strong> == '<strong>main</strong>':<br>
+my_log_settings.load_my_logging_cfg()<br>
+core.run()</p>
+<p>#=============&gt;conf目录：存放配置文件<br>
+#config.ini<br>
+[DEFAULT]<br>
+user_timeout = 1000</p>
+<p>[x]<br>
+password = 123<br>
+money = 10000000</p>
+<p>[y]<br>
+password = 123456<br>
+money=1000</p>
+<p>[z]<br>
+password = qwe123<br>
+money=10</p>
+<p>#settings.py<br>
+import os<br>
+config_path=r'%s%s' %(os.path.dirname(os.path.abspath(<strong>file</strong>)),'config.ini')<br>
+user_timeout=10<br>
+user_db_path=r'%s%s' %(os.path.dirname(os.path.dirname(os.path.abspath(<strong>file</strong>))),<br>
+'db')</p>
+<p>#my_log_settings.py<br>
+&quot;&quot;&quot;<br>
+logging配置<br>
+&quot;&quot;&quot;</p>
+<p>import os<br>
+import logging.config</p>
+<h1 id="定义三种日志输出格式-开始">定义三种日志输出格式 开始</h1>
+<p>standard_format = '[%(asctime)s][%(threadName)s:%(thread)d][task_id:%(name)s][%(filename)s:%(lineno)d]' <br>
+'[%(levelname)s][%(message)s]' #其中name为getlogger指定的名字</p>
+<p>simple_format = '[%(levelname)s][%(asctime)s][%(filename)s:%(lineno)d]%(message)s'</p>
+<p>id_simple_format = '[%(levelname)s][%(asctime)s] %(message)s'</p>
+<h1 id="定义日志输出格式-结束">定义日志输出格式 结束</h1>
+<p>logfile_dir = r'%s\log' %os.path.dirname(os.path.dirname(os.path.abspath(<strong>file</strong>)))  # log文件的目录</p>
+<p>logfile_name = 'all2.log'  # log文件名</p>
+<h1 id="如果不存在定义的日志目录就创建一个">如果不存在定义的日志目录就创建一个</h1>
+<p>if not os.path.isdir(logfile_dir):<br>
+os.mkdir(logfile_dir)</p>
+<h1 id="log文件的全路径">log文件的全路径</h1>
+<p>logfile_path = os.path.join(logfile_dir, logfile_name)</p>
+<h1 id="log配置字典">log配置字典</h1>
+<p>LOGGING_DIC = {<br>
+'version': 1,<br>
+'disable_existing_loggers': False,<br>
+'formatters': {<br>
+'standard': {<br>
+'format': standard_format<br>
+},<br>
+'simple': {<br>
+'format': simple_format<br>
+},<br>
+},<br>
+'filters': {},<br>
+'handlers': {<br>
+#打印到终端的日志<br>
+'console': {<br>
+'level': 'DEBUG',<br>
+'class': 'logging.StreamHandler',  # 打印到屏幕<br>
+'formatter': 'simple'<br>
+},<br>
+#打印到文件的日志,收集info及以上的日志<br>
+'default': {<br>
+'level': 'DEBUG',<br>
+'class': 'logging.handlers.RotatingFileHandler',  # 保存到文件<br>
+'formatter': 'standard',<br>
+'filename': logfile_path,  # 日志文件<br>
+'maxBytes': 1024<em>1024</em>5,  # 日志大小 5M<br>
+'backupCount': 5,<br>
+'encoding': 'utf-8',  # 日志文件的编码，再也不用担心中文log乱码了<br>
+},<br>
+},<br>
+'loggers': {<br>
+#logging.getLogger(<strong>name</strong>)拿到的logger配置<br>
+'': {<br>
+'handlers': ['default', 'console'],  # 这里把上面定义的两个handler都加上，即log数据既写入文件又打印到屏幕<br>
+'level': 'DEBUG',<br>
+'propagate': True,  # 向上（更高level的logger）传递<br>
+},<br>
+},<br>
+}</p>
+<p>def load_my_logging_cfg():<br>
+logging.config.dictConfig(LOGGING_DIC)  # 导入上面定义的logging配置<br>
+logger = logging.getLogger(<strong>name</strong>)  # 生成一个log实例<br>
+logger.info('It works!')  # 记录该文件的运行状态</p>
+<p>if <strong>name</strong> == '<strong>main</strong>':<br>
+load_my_logging_cfg()</p>
+<p>#=============&gt;core目录：存放核心逻辑<br>
+#core.py<br>
+import logging<br>
+import time<br>
+from conf import settings<br>
+from lib import read_ini<br>
+from conf import my_log_settings</p>
+<h1 id="printname">print(<strong>name</strong>)</h1>
+<p>config = read_ini.read(settings.config_path)<br>
+logger = my_log_settings.load_my_logging_cfg(<strong>name</strong>)</p>
+<p>current_user={'user':None,'login_time':None,'timeout':int(settings.user_timeout)}<br>
+def auth(func):<br>
+def wrapper(*args,**kwargs):<br>
+if current_user['user']:<br>
+interval=time.time()-current_user['login_time']<br>
+if interval &lt; current_user['timeout']:<br>
+return func(*args,**kwargs)<br>
+name = input('name&gt;&gt;: ')<br>
+password = input('password&gt;&gt;: ')<br>
+if config.has_section(name):<br>
+if password == config.get(name,'password'):<br>
+logger.info('登录成功')<br>
+current_user['user']=name<br>
+current_user['login_time']=time.time()<br>
+return func(*args,**kwargs)<br>
+else:<br>
+logger.error('登录失败')<br>
+else:<br>
+logger.error('用户名不存在')</p>
+<pre><code>return wrapper
+</code></pre>
+<p>@auth<br>
+def buy():<br>
+print('buy...')</p>
+<p>@auth<br>
+def run():</p>
+<pre><code>print('''
+</code></pre>
+<p>购物<br>
+查看余额<br>
+转账<br>
+''')<br>
+while True:<br>
+choice = input('&gt;&gt;: ').strip()<br>
+if not choice:continue<br>
+if choice == '1':<br>
+buy()</p>
+<p>#=============&gt;db目录：存放数据库文件<br>
+#x_json<br>
+#y_json</p>
+<p>#=============&gt;lib目录：存放自定义的模块与包<br>
+#read_ini.py<br>
+import configparser<br>
+def read(config_file):<br>
+config=configparser.ConfigParser()<br>
+config.read(config_file)<br>
+return config</p>
+<p>#=============&gt;log目录：存放日志<br>
+#all.log<br>
+[2018-04-20 00:19:48,587][MainThread:10840][task_id:<strong>main</strong>][my_logsettiing.py:75][INFO][It works!]<br>
+[2018-04-20 00:28:29,387][MainThread:9492][task_id:conf.my_log_settings][my_log_settings.py:75][INFO][It works!]<br>
+[2018-04-20 00:32:14,803][MainThread:15240][task_id:conf.my_log_settings][my_log_settings.py:75][INFO][It works!]<br>
+[2018-04-20 00:39:30,564][MainThread:11216][task_id:<strong>main</strong>][my_log_settings.py:75][INFO][It works!]<br>
+[2018-04-20 00:39:46,132][MainThread:11216][task_id:<strong>main</strong>][core.py:22][INFO][登录成功]<br>
+[2018-04-20 00:41:27,929][MainThread:6644][task_id:core.core][my_log_settings.py:75][INFO][It works!]<br>
+[2018-04-20 00:41:44,162][MainThread:8620][task_id:core.core][my_log_settings.py:75][INFO][It works!]<br>
+[2018-04-20 00:41:44,163][MainThread:8620][task_id:<strong>main</strong>][my_log_settings.py:75][INFO][It works!]<br>
+[2018-04-20 00:41:53,689][MainThread:8620][task_id:core.core][core.py:29][ERROR][用户名不存在]<br>
+[2018-04-20 00:44:33,641][MainThread:14012][task_id:<strong>main</strong>][my_log_settings.py:75][INFO][It works!]<br>
+[2018-04-20 00:44:42,086][MainThread:14012][task_id:<strong>main</strong>][core.py:22][INFO][登录成功]<br>
+[2018-04-20 00:47:22,321][MainThread:9460][task_id:<strong>main</strong>][my_log_settings.py:75][INFO][It works!]<br>
+[2018-04-20 00:47:25,847][MainThread:9460][task_id:<strong>main</strong>][core.py:29][ERROR][用户名不存在]<br>
+[2018-04-20 00:51:58,265][MainThread:14784][task_id:core.core][my_log_settings.py:75][INFO][It works!]<br>
+[2018-04-20 00:51:58,265][MainThread:14784][task_id:<strong>main</strong>][my_log_settings.py:75][INFO][It works!]<br>
+[2018-04-20 00:52:14,703][MainThread:14784][task_id:core.core][core.py:22][INFO][登录成功]<br>
+</code><br>
+</pre></p>
+</details>
+<h2 id="项目二">项目二</h2>
+<figure data-type="image" tabindex="2"><img src="https://yinzuopu.github.io/post-images/1659421523483.png" alt="" loading="lazy"></figure>
+<ul>
+<li>bin目录：是整个应用程序的执行文件目录，其中start.py文件是启动入口</li>
+<li>conf目录：是整个应用程序的配置文件目录，config.yaml是其中一个配置文件</li>
+<li>core目录：是整个应用程序的核心模块，core.py是核心业务逻辑脚本文件</li>
+<li>db目录：是整个应用程序的数据库文件目录</li>
+<li>lib目录：是整个应用程序的通用功能脚本和第三方应用文件存放目录</li>
+<li>log目录：是整个应用程序的日志文件目录</li>
+<li>res目录：是整个应用程序的图标、图片、ui等目录</li>
+<li>tests目录：是整个应用程序的测试文件目录</li>
+<li>venv-win32目录：是整个应用程序的32位虚拟环境目录，用于运行和打包32应用程序</li>
+<li>venv-win64目录：是整个应用程序的64位虚拟环境目录，用于运行和打包64应用程序</li>
+<li>readme.txt：项目说明文档</li>
+<li>requirements.txt：用于存放整个应用依赖的外部Python包列表</li>
+</ul>
+<h2 id="项目三">项目三</h2>
+<p><img src="https://yinzuopu.github.io/post-images/1659421650410.png" alt="" loading="lazy"><br>
+<img src="https://yinzuopu.github.io/post-images/1659421678730.png" alt="" loading="lazy"></p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://yinzuopu.github.io/tag/q3oPmVFPJ/" class="tag">
+                    Python
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://yinzuopu.github.io/post/python-fu-wu-qi-yun-xing-dai-ma-bao-cuo-modulenotfounderror-de-jie-jue-ban-fa/">
+                  <h3 class="post-title">
+                    python 服务器运行代码报错ModuleNotFoundError的解决办法
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

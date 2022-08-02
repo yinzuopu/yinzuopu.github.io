@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Python | Hello Yin</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://yinzuopu.github.io/favicon.ico?v=1659425479823">
+<link rel="stylesheet" href="https://yinzuopu.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="你好，我爱这个世界~">
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://yinzuopu.github.io">
+        <img src="https://yinzuopu.github.io/images/avatar.png?v=1659425479823" class="site-logo">
+        <h1 class="site-title">Hello Yin</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/yinzuopu" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://yinzuopu.github.io/" target="_blank">
+            <i class="fab fa-twitter"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://yinzuopu.github.io/" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://yinzuopu.github.io/" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://yinzuopu.github.io/" target="_blank">
+            <i class="fab fa-facebook"></i>
+          </a>
+        
+      
+    </div>
+    <div class="site-description">
+      你好，我爱这个世界~
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/yinzuopu/yinzuopu.github.io" target="_blank">YIN</a> | <a class="rss" href="https://yinzuopu.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <h2 class="current-tag">标签: Python</h2>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://yinzuopu.github.io/post/python-cheng-xu-mu-lu-gong-cheng-hua/">
+                  <h2 class="post-title">python程序目录工程化</h2>
+                </a>
+                <div class="post-date">
+                  2022-08-02
+                </div>
+                <div class="post-abstract">
+                  <p>在一个程序当中，一般都会包含文件夹：bin、conf、lib、data、logs，以及readme文件。<br>
+<img src="https://yinzuopu.github.io/post-images/1659422595737.png" alt="" loading="lazy"><br>
+所写程序存放到各自的文件夹中，如何进行串联？<br>
+首先，通过导入文件导入模块方式，引用其他人写好的代码。<br>
+其次，找到最顶层的程序所在文件夹，加入到环境变量中。</p>
+
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://yinzuopu.github.io/post/python-gong-cheng-mu-lu-jie-gou-jie-gou-hua-ni-de-gong-cheng/">
+                  <h2 class="post-title">python工程目录结构示例：结构化你的工程</h2>
+                </a>
+                <div class="post-date">
+                  2022-08-02
+                </div>
+                <div class="post-abstract">
+                  <p>我们对于“结构化”的定义是您关注于怎样使您的项目最好地满足它的对象性，我们 需要去考虑如何更好地利用Python的特性来创造简洁、高效的代码。在实践层面， “结构化”意味着通过编写简洁的代码，并且正如文件系统中文件和目录的组织一样， 代码应该使逻辑和依赖清晰。</p>
+
+                </div>
+              </div>
+              
+            </article>
+          
+
+          <div class="pagination-container">
+  
+  
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

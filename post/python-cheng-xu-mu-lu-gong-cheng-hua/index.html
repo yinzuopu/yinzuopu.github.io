@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>python程序目录工程化 | Hello Yin</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://yinzuopu.github.io/favicon.ico?v=1659425479823">
+<link rel="stylesheet" href="https://yinzuopu.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="在一个程序当中，一般都会包含文件夹：bin、conf、lib、data、logs，以及readme文件。
+
+所写程序存放到各自的文件夹中，如何进行串联？
+首先，通过导入文件导入模块方式，引用其他人写好的代码。
+其次，找到最顶层的程序所在文件..." />
+    <meta name="keywords" content="Python" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://yinzuopu.github.io">
+        <img src="https://yinzuopu.github.io/images/avatar.png?v=1659425479823" class="site-logo">
+        <h1 class="site-title">Hello Yin</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/yinzuopu" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://yinzuopu.github.io/" target="_blank">
+            <i class="fab fa-twitter"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://yinzuopu.github.io/" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://yinzuopu.github.io/" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://yinzuopu.github.io/" target="_blank">
+            <i class="fab fa-facebook"></i>
+          </a>
+        
+      
+    </div>
+    <div class="site-description">
+      你好，我爱这个世界~
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/yinzuopu/yinzuopu.github.io" target="_blank">YIN</a> | <a class="rss" href="https://yinzuopu.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">python程序目录工程化</h2>
+            <div class="post-date">2022-08-02</div>
+            
+            <div class="post-content" v-pre>
+              <p>在一个程序当中，一般都会包含文件夹：bin、conf、lib、data、logs，以及readme文件。<br>
+<img src="https://yinzuopu.github.io/post-images/1659422595737.png" alt="" loading="lazy"><br>
+所写程序存放到各自的文件夹中，如何进行串联？<br>
+首先，通过导入文件导入模块方式，引用其他人写好的代码。<br>
+其次，找到最顶层的程序所在文件夹，加入到环境变量中。</p>
+<!-- more -->
+<pre><code class="language-python">import os, sys
+BASE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(file)))    #取到工程目录
+sys.path.insert(0,BASE_PATH)        #加入环境变量
+from lib.main import server     #导入lib目录下的main.py文件。
+server.run(port=8000,host='127.0.0.1',debug=True)
+</code></pre>
+<p>说明：<br/><br>
+1、os.path.abspath(file)获取当前文件路径<br>
+2、sys.path.insert(0,BASE_PATH) 加入环境变量，在系统环境变量中不会看到<br>
+3、将host=0.0.0.0 可以同个局域网里面所有人都可以访问</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://yinzuopu.github.io/tag/q3oPmVFPJ/" class="tag">
+                    Python
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://yinzuopu.github.io/post/python-gong-cheng-mu-lu-jie-gou-jie-gou-hua-ni-de-gong-cheng/">
+                  <h3 class="post-title">
+                    python工程目录结构示例：结构化你的工程
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>
